@@ -104,8 +104,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     // Dispatch Trigger 1: Registration / Welcome Email
     try {
       await emailService.sendWelcomeEmail(emailNormalized, name, role);
-    } catch (e) {
-      console.error('[Email] Failed to send welcome email:', e);
+    } catch (e: any) {
+      console.error('[Email] Failed to send welcome email:', e.message || e);
     }
 
     const token = generateToken(newUser._id.toString(), newUser.email, newUser.role);
@@ -173,8 +173,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     try {
       await emailService.sendLoginAlertEmail(user.email, user.name, clientIp.toString(), userAgent, loginTime);
-    } catch (e) {
-      console.error('[Email] Failed to send login alert:', e);
+    } catch (e: any) {
+      console.error('[Email] Failed to send login alert:', e.message || e);
     }
 
     const token = generateToken(user._id.toString(), user.email, user.role);
@@ -314,8 +314,8 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
       // Dispatch Trigger 3: Password Reset Request Email
       try {
         await emailService.sendPasswordResetEmail(user.email, user.name, resetToken, otp);
-      } catch (e) {
-        console.error('[Email] Failed to send password reset email:', e);
+      } catch (e: any) {
+        console.error('[Email] Failed to send password reset email:', e.message || e);
       }
     }
 
@@ -389,8 +389,8 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
     // Dispatch Trigger 4: Password Updated Confirmation Email
     try {
       await emailService.sendPasswordUpdatedEmail(user.email, user.name);
-    } catch (e) {
-      console.error('[Email] Failed to send password updated email:', e);
+    } catch (e: any) {
+      console.error('[Email] Failed to send password updated email:', e.message || e);
     }
 
     res.status(200).json({
