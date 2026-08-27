@@ -14,12 +14,20 @@ export const connectDB = async (): Promise<boolean> => {
     return true;
   }
 
-  const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/PathSeeker';
+  const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
+
+  if (!mongoUri) {
+    console.error('[Database] Warning: MONGO_URI and MONGODB_URI are missing from environment variables. Falling back to in-memory store.');
+    isMockStoreActive = true;
+    return false;
+  }
 
   try {
     if (!cached.promise) {
+      console.log('[Database] Initiating new MongoDB connection...');
       cached.promise = mongoose.connect(mongoUri, {
         serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000,
       }).then((mongooseInstance) => {
         return mongooseInstance;
       });
@@ -32,7 +40,8 @@ export const connectDB = async (): Promise<boolean> => {
   } catch (error: any) {
     cached.promise = null;
     isMockStoreActive = true;
-    console.error(`[Database] MongoDB connection failed: ${error.message}. Falling back to in-memory store.`);
+    console.error(`[Database] MongoDB connection failed. Error Details: ${error.stack || error.message}`);
+    console.error('[Database] Falling back to in-memory store gracefully.');
     return false;
   }
 };

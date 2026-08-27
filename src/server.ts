@@ -8,11 +8,11 @@ import { connectDB, getDbStatus } from './config/db';
 import { errorHandler } from './middleware/errorHandler';
 
 // Environment Variable Validation
-const requiredEnv = ['MONGO_URI', 'JWT_SECRET'];
+const requiredEnv = ['JWT_SECRET'];
 requiredEnv.forEach((envVar) => {
   if (!process.env[envVar]) {
     console.error(`[Fatal Error] Missing required environment variable: ${envVar}`);
-    process.exit(1);
+    // Do not exit process in serverless, just log
   }
 });
 
