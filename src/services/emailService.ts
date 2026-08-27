@@ -106,7 +106,7 @@ export const emailService = {
       </div>
 
       <div style="text-align:center; margin: 30px 0;">
-        <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard" class="btn">Launch Career Passport Dashboard &rarr;</a>
+        <a href="${process.env.FRONTEND_URL || 'https://path-seeker-frontend.vercel.app'}/dashboard" class="btn">Launch Career Passport Dashboard &rarr;</a>
       </div>
 
       <p style="font-size:13px; color:#94A3B8;">If you did not create this account, please contact security@pathseeker.io immediately.</p>
@@ -145,7 +145,7 @@ export const emailService = {
       <p>If this was you, you can safely disregard this security notice.</p>
       <p style="color:#F87171; font-size:13px;">If you did NOT perform this login, please secure your account immediately by resetting your password:</p>
       <div style="text-align:center; margin:24px 0;">
-        <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/forgot-password" class="btn" style="background:#EF4444; color:#FFFFFF !important;">Secure My Account</a>
+        <a href="${process.env.FRONTEND_URL || 'https://path-seeker-frontend.vercel.app'}/forgot-password" class="btn" style="background:#EF4444; color:#FFFFFF !important;">Secure My Account</a>
       </div>
       `
     );
@@ -155,7 +155,7 @@ export const emailService = {
 
   // 3. Password Reset Request (with secure token link / OTP)
   sendPasswordResetEmail: async (to: string, name: string, resetToken: string, otp: string) => {
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
+    const resetUrl = `${process.env.FRONTEND_URL || 'https://path-seeker-frontend.vercel.app'}/reset-password?token=${resetToken}`;
     const html = wrapEmailTemplate(
       'Password Reset Request - PathSeeker',
       `Your PathSeeker password reset code is ${otp}`,
@@ -198,7 +198,7 @@ export const emailService = {
       </div>
 
       <div style="text-align:center; margin:28px 0;">
-        <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/login" class="btn">Log In to PathSeeker &rarr;</a>
+        <a href="${process.env.FRONTEND_URL || 'https://path-seeker-frontend.vercel.app'}/login" class="btn">Log In to PathSeeker &rarr;</a>
       </div>
 
       <p style="font-size:13px; color:#F87171;">If you did not perform this change, please contact our emergency response team at security@pathseeker.io immediately.</p>
