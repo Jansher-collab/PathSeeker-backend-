@@ -31,8 +31,9 @@ export const connectDB = async (): Promise<boolean> => {
     return true;
   } catch (error: any) {
     cached.promise = null;
-    console.error(`[Database] MongoDB connection failed: ${error.message}`);
-    process.exit(1); // Exit process with failure since we strictly need DB
+    isMockStoreActive = true;
+    console.error(`[Database] MongoDB connection failed: ${error.message}. Falling back to in-memory store.`);
+    return false;
   }
 };
 

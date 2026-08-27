@@ -7,6 +7,23 @@ import morgan from 'morgan';
 import { connectDB, getDbStatus } from './config/db';
 import { errorHandler } from './middleware/errorHandler';
 
+// Environment Variable Validation
+const requiredEnv = ['MONGO_URI', 'JWT_SECRET'];
+requiredEnv.forEach((envVar) => {
+  if (!process.env[envVar]) {
+    console.error(`[Fatal Error] Missing required environment variable: ${envVar}`);
+    process.exit(1);
+  }
+});
+
+// Process-level Error Logging
+process.on('uncaughtException', (err) => {
+  console.error('[Uncaught Exception]', err);
+  process.exit(1);
+});
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[Unhandled Rejection] at:', promise, 'reason:', reason);
+});
 // Route Imports
 import authRoutes from './routes/authRoutes';
 import careerRoutes from './routes/careerRoutes';
