@@ -26,6 +26,7 @@ export const connectDB = async (): Promise<boolean> => {
     if (!cached.promise) {
       console.log('[Database] Initiating new MongoDB connection...');
       cached.promise = mongoose.connect(mongoUri, {
+        bufferCommands: false, // Fail fast in serverless if connection drops
         serverSelectionTimeoutMS: 5000,
         socketTimeoutMS: 45000,
       }).then((mongooseInstance) => {

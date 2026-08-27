@@ -39,9 +39,11 @@ import adminRoutes from './routes/adminRoutes';
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to Database with cached connection & graceful in-memory fallback
-connectDB();
-
+// Ensure database connection is resolved before any route handlers execute (crucial for Serverless Vercel)
+app.use(async (req: Request, res: Response, next: express.NextFunction) => {
+  await connectDB();
+  next();
+});
 // Middleware
 app.use(
   cors({
