@@ -145,7 +145,7 @@ export const emailService = {
       <p>If this was you, you can safely disregard this security notice.</p>
       <p style="color:#F87171; font-size:13px;">If you did NOT perform this login, please secure your account immediately by resetting your password:</p>
       <div style="text-align:center; margin:24px 0;">
-        <a href="https://path-seeker-frontend.vercel.app/forgot-password" class="btn" style="background:#EF4444; color:#FFFFFF !important;">Secure My Account</a>
+        <a href="https://path-seeker-frontend.vercel.app/dashboard" class="btn" style="background:#EF4444; color:#FFFFFF !important;">Secure My Account</a>
       </div>
       `
     );
