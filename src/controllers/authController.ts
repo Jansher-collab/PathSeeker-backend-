@@ -288,12 +288,6 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
       user = mockUsers.find((u) => u.email === emailNormalized);
     }
 
-    // Always simulate success response for security, but only send email if user exists
-    res.status(200).json({
-      success: true,
-      message: 'If an account matches that email, a password reset link and 6-digit OTP code has been dispatched.',
-    });
-    
     if (user) {
       // Generate 6-digit OTP and reset token
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -316,8 +310,16 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
         await emailService.sendPasswordResetEmail(user.email, user.name, resetToken, otp);
       } catch (e: any) {
         console.error('[Email] Failed to send password reset email:', e.message || e);
+        res.status(500).json({ success: false, message: 'An error occurred while sending the email. Please try again later.' });
+        return;
       }
     }
+
+    // Always send success response after everything is processed (avoids serverless early termination)
+    res.status(200).json({
+      success: true,
+      message: 'If an account matches that email, a password reset link and 6-digit OTP code has been dispatched.',
+    });
 
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
